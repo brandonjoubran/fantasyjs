@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function Header() {
+const Header = () => {
     return (
         <Container className=''>
           <Row className='pt-3 pb-3 d-flex w-100'>
