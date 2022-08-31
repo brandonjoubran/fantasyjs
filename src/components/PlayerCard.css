@@ -1,0 +1,18 @@
+.total-stat-heading {
+    background-color: #015baa;
+    color: white;
+}
+
+.month-heading {
+    background-color: lightgray;
+    margin-bottom: 12px;
+    padding: 12px 0;
+}
+
+.monthly-stat-heading {
+    background-color: lightblue;
+}
+
+.team-ranking-category {
+    background-color: #d19ef8;
+}

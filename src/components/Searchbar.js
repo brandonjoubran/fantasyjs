@@ -201,7 +201,7 @@ const Searchbar = (props) => {
     
     return (
         <Container className="d-flex justify-content-center w-100">
-            <InputGroup className="mb-3 p-3 w-100 d-flex justify-content-center">
+            <InputGroup className="mb-3 p-2 w-100 d-flex justify-content-center">
             <Form.Control
             placeholder="Player name"
             aria-label="Player name"
