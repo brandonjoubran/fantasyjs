@@ -42,7 +42,7 @@ const PlayerCard = (props) => {
     }
 
 
-    const renderPlayerCardStats = props.player?.statsPerMonth?.map((month, index) => {
+    const renderPlayerCardStats = props.player?.stats?.statsPerMonth?.map((month, index) => {
         return (
             
             <Row className={`mt-3 justify-content-center order-${monthOrder(month.month)}`}  >
@@ -66,7 +66,7 @@ const PlayerCard = (props) => {
                     <Container>
                         <Col>
                             <Row className='d-flex justify-content-center text-center' style={{backgroundColor:'#dc3545', color:'white'}}>
-                                Total Points Scored
+                                Points
                             </Row>
                             <Row className='d-flex justify-content-center'>
                             {month.stat.points}
@@ -140,15 +140,16 @@ const PlayerCard = (props) => {
     })
 
     function renderPlayerCard () {
-        if(props.player.firstName == ""){
+        console.log(props.player.set)
+        if(!props.player.set){
             return
         }
         return (
             <Card >
                 <Card.Body>
 
-                    <Card.Title>{props.player.firstName} {props.player.lastName} (2021-22)</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{props.player.teamAbrv} {props.player.pos} Age: {props.player.age}</Card.Subtitle>
+                    <Card.Title>{props.player.info.firstName} {props.player.info.lastName} (2021-22)</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{props.player.team.teamAbrv} {props.player.info.pos} Age: {props.player.info.age}</Card.Subtitle>
                     <Card.Text>
                         <Container>
 
@@ -164,16 +165,102 @@ const PlayerCard = (props) => {
         )
     }
 
+    function renderTeamCard () {
+        console.log(props.player.set)
+        if(!props.player.set){
+            return
+        }
+        return (
+            <Card >
+                <Card.Body>
+                    <Card.Title>Team's Stats Rankings</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{props.player.team.teamName} (2021-22) </Card.Subtitle>
+                    <Card.Text>
+                        <Container>
+                            <Row>
+                                {renderTeamCardStats()}
+                            </Row>
+                        </Container>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+            
+        )
+    }
+
+    function renderTeamCardStats (){
+        return(
+            <div>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        PP%
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['powerPlayPercentage']}
+                    </Col>
+                </Row>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        PPO
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['powerPlayOpportunities']}
+                    </Col>
+                </Row>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        PPG
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['powerPlayGoals']}
+                    </Col>
+                </Row>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        S/G
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['shotsPerGame']}
+                    </Col>
+                </Row>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        S%
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['shootingPctRank']}
+                    </Col>
+                </Row>
+                <Row className={`mt-3 justify-content-center`}  >
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center fw-bolder' style={{backgroundColor:'#d19ef8'}}>
+                        G/G
+                    </Col>
+                    
+                    <Col lg={6} sm={1} className='d-flex justify-content-center align-items-center'>
+                        {props.player.team.teamStats[1].splits[0].stat['goalsPerGame']}
+                    </Col>
+                </Row>
+            </div>
+    )}
+
 
   return (
     <Container>
         <Row>
-        <Col lg={12}>
+        <Col lg={8}>
             {renderPlayerCard()}
+        </Col>
+        <Col lg={4}>
+        {renderTeamCard()}
         </Col>
 
         </Row>
-
+            
     </Container>
 
   );
