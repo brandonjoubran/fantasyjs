@@ -7,20 +7,27 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PlayerCard from './PlayerCard';
+import SearchDropdown from './SearchDropdown';
 
 function App() {
 
   const [player, setPlayer] = useState({})
+  const [suggestions, setSuggestions] = useState([])
 
   const addSearchHandler = (search) => {
     console.log(search)
     setPlayer(search)
   }
 
+  const addSuggestionHandler = (suggest) => {
+    setSuggestions(suggest)
+  }
+
   return (
     <Container >
       <Header />
-      <Searchbar addSearchHandler={addSearchHandler}/>
+      <Searchbar addSearchHandler={addSearchHandler} 
+                addSuggestionHandler={addSuggestionHandler}/>
       <PlayerCard player={player}/>
     </Container>
   )

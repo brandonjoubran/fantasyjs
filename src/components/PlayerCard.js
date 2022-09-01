@@ -46,7 +46,6 @@ const PlayerCard = (props) => {
 
     const renderPlayerCardStats = props.player?.stats?.statsPerMonth?.map((month, index) => {
         return (
-            
             <Row className={`mt-3 justify-content-center order-${monthOrder(month.month)}`}  >
                 <Col sm={1} lg={1} className='month-heading d-flex justify-content-center align-items-center fw-bolder' >
                     {numToMonth(month.month)}
@@ -195,7 +194,7 @@ const PlayerCard = (props) => {
         return(
             <Row>
                 <Col>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             PP%
                         </Col>
@@ -208,7 +207,7 @@ const PlayerCard = (props) => {
                     </Row>
                 </Col>
                 <Col lg={12}>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             PPO
                         </Col>
@@ -219,7 +218,7 @@ const PlayerCard = (props) => {
                     </Row>
                 </Col>
                 <Col lg={12}>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             PPG
                         </Col>
@@ -230,7 +229,7 @@ const PlayerCard = (props) => {
                     </Row>
                 </Col>
                 <Col lg={12}>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             S/G
                         </Col>
@@ -241,7 +240,7 @@ const PlayerCard = (props) => {
                     </Row>
                 </Col>
                 <Col lg={12}>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             S%
                         </Col>
@@ -252,7 +251,7 @@ const PlayerCard = (props) => {
                     </Row>
                 </Col>
                 <Col lg={12}>
-                    <Row className={`mt-3 justify-content-center`}  >
+                    <Row className={`mt-2 justify-content-center`}  >
                         <Col lg={6} sm={1} className='team-ranking-category d-flex justify-content-center align-items-center fw-bolder'>
                             G/G
                         </Col>
@@ -402,28 +401,30 @@ const PlayerCard = (props) => {
         )
     }
 
-
-  return (
-    <Container className='mb-4'>
-        <Row>
-        <Col lg={8} className="d-flex">
-            {renderPlayerCard()}
-        </Col>
-        <Col lg={4} className="d-flex flex-column">
-            <Row className="d-flex flex-grow-1">
-                {renderTeamCard()}
-            </Row>
-            <Row>
-                {renderPlayerTotalCard()}
-            </Row>
+    if(props.player != undefined){
+        console.log(props.set)
+        return (
+            <Container className='mb-4'>
+                <Row>
+                <Col lg={8} className="d-flex">
+                    {renderPlayerCard()}
+                </Col>
+                <Col lg={4} className="d-flex flex-column">
+                    <Row className="d-flex flex-grow-1">
+                        {renderTeamCard()}
+                    </Row>
+                    <Row>
+                        {renderPlayerTotalCard()}
+                    </Row>
+                
+                </Col>
         
-        </Col>
-
-        </Row>
-            
-    </Container>
-
-  );
+                </Row>
+                    
+            </Container>
+        
+          );
+    }
 }
 
 export default PlayerCard;
