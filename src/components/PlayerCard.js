@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image'
 
 const PlayerCard = (props) => {
 
@@ -145,13 +146,31 @@ const PlayerCard = (props) => {
         if(!props.player.set){
             return
         }
-        /*style="background-color: #015baa;color: white;"*/
         return (
             <Card >
                 <Card.Body className="d-flex flex-column">
+                    <Card.Title> 
+                        <Container>
+                            <Row>
+                                <Col lg={1} md={1} sm={1} className='d-flex p-0 justify-content-center'>
+                                    <div className='img-wrapper' style={{maxWidth: '60px', maxHeight: '60px'}}>
+                                        <Image src={`https://cms.nhl.bamgrid.com/images/headshots/current/60x60/${props.player.info.id}@2x.jpg`} roundedCircle style={{border: "1px solid black", width:'100%', height:"100%"}}></Image> 
+                                    </div>
+                                </Col>
+                                <Col lg={'auto'} md={'auto'} sm={'auto'} className='d-flex flex-column justify-content-center'>
+                                
+                                    <Row className="ps-2 py-1">
+                                        {props.player.info.firstName} {props.player.info.lastName} (2021-22)
 
-                    <Card.Title>{props.player.info.firstName} {props.player.info.lastName} (2021-22)</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{props.player.team.teamAbrv} {props.player.info.pos} Age: {props.player.info.age}</Card.Subtitle>
+                                    </Row>
+                                    <Row>
+                                        <Card.Subtitle className="ps-2 text-muted">{props.player.team.teamAbrv} {props.player.info.pos} Age: {props.player.info.age}</Card.Subtitle>
+
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Container>
+                        </Card.Title>
                     <Card.Text className="h-100">
                         <Container className="h-100">
 

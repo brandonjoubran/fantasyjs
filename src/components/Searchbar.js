@@ -4,9 +4,14 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Container } from "react-bootstrap";
 import ListGroup from 'react-bootstrap/ListGroup';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image'
+import logo from '../img/nhl-logo-react.jpeg'
+import avatar from '../img/uknown-avatar.jpeg'
 
 const Searchbar = (props) => {
+
 
     const [searchedPlayer, setSearchedPlayer] = useState({
         name: "",
@@ -43,7 +48,8 @@ const Searchbar = (props) => {
             firstName: "",
             lastName: "",
             pos: "",
-            age:""
+            age:"",
+            id:""
         },
         stats: {
             statsPerMonth: [],
@@ -59,27 +65,14 @@ const Searchbar = (props) => {
 
     const [playerList, setPlayerList] = useState([])
 
-    function renderSuggestions() {
-
-    }
-
     useEffect( () => {
-        console.log('aff')
-        console.log(playerFull)
         props.addSearchHandler(playerFull)
     }, [done])
-
-    useEffect( () => {
-        console.log('aff2')
-        console.log(playerList)
-        props.addSuggestionHandler(playerList)
-    }, [playerList])
 
     useEffect( () => {
         fetch(`https://suggest.svc.nhl.com/svc/suggest/v1/activeplayers/${searchedPlayer.name}/`)
         .then(results => results.json())
         .then(data => {
-            console.log(data.suggestions)
             if(data.suggestions.length == 0){
                 setPlayerFull({
                     set:false
@@ -90,9 +83,7 @@ const Searchbar = (props) => {
                 setPlayerList(data.suggestions)
                 return;
             }else if(data.suggestions.length > 1){
-                /*data.suggestions.map(playerList => {
-                    console.log(playerList)
-                })*/
+
                 setPlayerFull({
                     set:false
                 })
@@ -114,7 +105,6 @@ const Searchbar = (props) => {
                 let pos = splitData.primaryPosition.abbreviation
                 let age = splitData.currentAge
                 let teamLink = splitData.currentTeam.link
-                console.log(teamLink)
                 setPlayer({
                     id: playerId,
                     firstName: firstName, 
@@ -140,7 +130,6 @@ const Searchbar = (props) => {
         .then(results => results.json())
         .then(data => {
             setPlayerList(undefined)
-            console.log(data.stats[0].splits[0].stat.games)
             let stats = data.stats[0].splits
 
             setPlayerStats({
@@ -162,15 +151,14 @@ const Searchbar = (props) => {
         fetch(`https://statsapi.web.nhl.com${player.teamLink}/stats`)
         .then(results => results.json())
         .then(teamData => {
-            console.log('one more')
-            console.log(teamData.stats)
             setPlayerFull({
                 set: true,
                 info: {
                     firstName: player.firstName,
                     lastName: player.lastName,
                     pos: player.pos,
-                    age:player.age
+                    age:player.age,
+                    id:player.id
                 },
                 stats: {
                     statsPerMonth: playerStats.statsPerMonth,
@@ -187,11 +175,7 @@ const Searchbar = (props) => {
         })
         .then(results2 => results2.json())
         .then(totals => {
-            console.log('totals2')
-            console.log(playerFull)
-            console.log(totals.stats[0].splits[0].stat)
-            
-            
+                        
             setPlayerFull(curr => ({
                 ...curr,
                 stats: {
@@ -199,23 +183,6 @@ const Searchbar = (props) => {
                     statsTotals: totals.stats[0].splits[0].stat
                 },
             }))
-            
-            /*setPlayerFull({
-                set: true,
-                info: {
-                    firstName: player.firstName,
-                    lastName: player.lastName,
-                    pos: player.pos,
-                    age:player.age
-                },
-                stats: {
-                    ...playerFull,
-                    statsTotals: totals.stats[0].splits[0].stat
-                },
-                team: {
-                    ...playerFull.team
-                }
-            })*/
         })
         .finally(()=> {
             setDone({
@@ -225,26 +192,8 @@ const Searchbar = (props) => {
 
     }, [playerStats])
 
-    function getPlayerStatsTotals(){
-        console.log('totals')
-        fetch(`https://statsapi.web.nhl.com/api/v1/people/${player.id}/stats?stats=statsSingleSeason&season=20212022`)
-        .then(results => results.json())
-        .then(totals => {
-            console.log('totals2')
-            console.log(totals.stats[0].splits[0].stat)
-            setPlayerFull({
-                ...playerFull,
-                stats: {
-                    ...playerFull,
-                    statsTotals: totals.stats[0].splits[0].stat
-                }
-            })
-        })
-    }
-
     function sugs(){
         if(playerList != undefined && playerList.length > 1) {
-            
             return (
                 <ListGroup defaultActiveKey="#link1" style={{paddingRight:'72px'}}>
                     {playerList.map((player => {
@@ -262,7 +211,18 @@ const Searchbar = (props) => {
                             age: player.person.currentAge,
                             pos: player.position.abbreviation 
                         })}}>
-                            {`${player.person.fullName} (${player.team.abbreviation}) ${player.position.abbreviation}`}
+                            <Container>
+                                <Row>
+                                    <Col lg={'auto'} className='d-flex p-0 justify-content-start' style={{width: '44px'}}>
+                                    <div className='img-wrapper' style={{maxWidth: '36px', maxHeight: '36px'}}>
+                                    <Image src={`https://cms.nhl.bamgrid.com/images/headshots/current/60x60/${player.person.id}@2x.jpg`} roundedCircle style={{border: "1px solid black", width:'100%', height:"100%"}} alt='Player pic' onError={(e) => (e.currentTarget.src = avatar)}></Image> 
+                            </div>
+                                    </Col>
+                                    <Col className='d-flex flex-column justify-content-center'>
+                                    {`${player.person.fullName} (${player.team.abbreviation}) ${player.position.abbreviation}`}
+                                    </Col>
+                                </Row>
+                            </Container>
                         </ListGroup.Item>
                         )
                     }))}
