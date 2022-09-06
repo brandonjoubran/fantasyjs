@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image'
 import logo from '../img/nhl-logo-react.jpeg'
-import avatar from '../img/uknown-avatar.jpeg'
+import avatar from '../img/skater.jpg'
 
 const Searchbar = (props) => {
 
@@ -53,7 +53,10 @@ const Searchbar = (props) => {
         },
         stats: {
             statsPerMonth: [],
-            statsTotals: {}
+            statsTotals: {},
+            statsPrevYear: {},
+            statsTwoYrAgo: {},
+            statsRankings: {}
         },
         team: {
             teamName: "",
@@ -181,6 +184,44 @@ const Searchbar = (props) => {
                 stats: {
                     ...curr.stats,
                     statsTotals: totals.stats[0].splits[0].stat
+                },
+            }))
+
+            return fetch(`https://statsapi.web.nhl.com/api/v1/people/${player.id}/stats?stats=statsSingleSeason&season=20202021`)
+            
+        })
+        .then(result3 => result3.json())
+        .then(totals2 => {
+            setPlayerFull(curr => ({
+                ...curr,
+                stats: {
+                    ...curr.stats,
+                    statsPrevYear: totals2.stats[0].splits[0].stat
+                },
+            }))
+
+            return fetch(`https://statsapi.web.nhl.com/api/v1/people/${player.id}/stats?stats=statsSingleSeason&season=20192020`)
+
+        })
+        .then(result4 => result4.json())
+        .then(totals3 => {
+            setPlayerFull(curr => ({
+                ...curr,
+                stats: {
+                    ...curr.stats,
+                    statsTwoYrAgo: totals3.stats[0].splits[0].stat
+                },
+            }))
+            return fetch(`https://statsapi.web.nhl.com/api/v1/people/${player.id}/stats?stats=regularSeasonStatRankings&season=20212022`)
+        })
+        .then(result5 => result5.json())
+        .then(totals4 => {
+            console.log(totals4.stats[0].splits[0].stat)
+            setPlayerFull(curr => ({
+                ...curr,
+                stats: {
+                    ...curr.stats,
+                    statsRankings: totals4.stats[0].splits[0].stat
                 },
             }))
         })
